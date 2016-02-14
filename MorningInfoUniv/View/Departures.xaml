@@ -1,0 +1,93 @@
+﻿<UserControl
+    x:Class="MorningInfoUniv.View.Departures"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MorningInfoUniv.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:Converters="using:MorningInfoUniv.View.Converters"
+    d:DesignWidth="528"
+    DataContext="{Binding Departures, Source={StaticResource Locator}}"
+    
+>
+    <UserControl.Resources>
+        <Converters:EstimatedColourCoverter x:Key="EstimatedToColor" Green="Green" Amber="Yellow" Red="Red" />
+        <Converters:DateTimeConverter x:Key="StringFormat"  />
+
+        <Style TargetType="TextBlock" x:Key="TableData">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Light"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TableHeader">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+      
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Foreground="Yellow" Text="Departures" FontSize="{StaticResource TextStyleExtraLargeFontSize}"/>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Departures}" SelectionMode="None" >
+
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource TableData}" Text="Time"/>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="1" Text="Destination"/>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="2" Text="Expected"/>
+                        </Grid>
+
+                        <ItemsPresenter Grid.Row="1"/>
+
+                    </Grid>
+                </ControlTemplate>
+            </ItemsControl.Template>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="7*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource TableData}" Text="{Binding ScheduledDeparture}"/>
+                        <TextBlock Style="{StaticResource TableData}" Grid.Column="1" Foreground="Yellow" Text="{Binding Destination}"/>
+                        <TextBlock Style="{StaticResource TableData}" Grid.Column="2" Foreground="{Binding ExpectedDepature, Converter={StaticResource EstimatedToColor}}" Text="{Binding ExpectedDepature}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0"></Setter>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+
+
+
+        </ListView>
+        <TextBlock Foreground="Gray" Grid.Row="2"><Run Text="Last updated: "/><Run Text="{Binding Departures.LastUpdated, Converter={StaticResource StringFormat}, ConverterParameter='HH:mm'}"/></TextBlock>
+
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,30 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:View="using:MorningInfoUniv.View"
+      x:Class="MorningInfoUniv.MainPage"
+      mc:Ignorable="d"
+      DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            
+        </Grid.RowDefinitions>
+
+
+
+        
+        <View:Clock FontSize="44" Foreground="Yellow" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <View:Departures Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="762" Margin="0,0.333,0,0"/>
+
+
+
+
+    </Grid>
+</Page>
