@@ -34,7 +34,7 @@ namespace MorningInfoUniv.ViewModel
         public DeparturesViewModel(TrainServiceCache serviceCache)
         {
             _serviceCache = serviceCache;
-            Station = "CLJ";
+            Station = "HAV";
 
             _serviceCache.CollectionChanged += _serviceCache_CollectionChanged;
            

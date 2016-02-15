@@ -45,16 +45,25 @@ namespace MorningInfoUniv.Model
 
         public async Task GetArrDepData(string station, string destination = null)
         {
-            var services = await _webservice.GetDepartures(18, station, destination);
+            var arrDeparture = this.FirstOrDefault(s => station == s.Station);
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                var arrDeparture = this.FirstOrDefault(s => station == s.Station);
+                
                 if (arrDeparture == null)
                 {
                     arrDeparture = new ArrivalDepartureBoard() { Station = station };
                     Add(arrDeparture);
                 }
+                arrDeparture.Updating = true;
+
+            });
+                var services = await _webservice.GetDepartures(18, station, destination);
+
+
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+               
 
                 var newIDs = services.Select(s => s.ServiceID);
                 var existingIDs = arrDeparture.Select(s => s.ServiceID).ToList();               
@@ -84,6 +93,7 @@ namespace MorningInfoUniv.Model
                    
                 }
                 arrDeparture.LastUpdated = DateTime.Now;
+                arrDeparture.Updating = false;
             });
 
 
@@ -105,6 +115,20 @@ namespace MorningInfoUniv.Model
                 OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("LastUpdated"));
             }
         }
+        private bool _updating;
+        public bool Updating
+        {
+            get
+            {
+                return _updating;
+            }
+            set
+            {
+                _updating = value;
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("Updating"));
+            }
+        }
+
     }
     public class TrainService
     {

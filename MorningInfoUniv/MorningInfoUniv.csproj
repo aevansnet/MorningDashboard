@@ -124,6 +124,7 @@
     <Compile Include="View\Clock.xaml.cs">
       <DependentUpon>Clock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\DateTimeConverter.cs" />
     <Compile Include="View\Converters\EstimatedColourCoverter.cs" />
     <Compile Include="View\Converters\StringFormatConverter.cs" />

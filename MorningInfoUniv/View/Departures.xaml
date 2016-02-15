@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <Converters:EstimatedColourCoverter x:Key="EstimatedToColor" Green="Green" Amber="Yellow" Red="Red" />
         <Converters:DateTimeConverter x:Key="StringFormat"  />
+        <Converters:BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <Style TargetType="TextBlock" x:Key="TableData">
             <Setter Property="FontSize" Value="36"/>
@@ -32,7 +33,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="Yellow" Text="Departures" FontSize="{StaticResource TextStyleExtraLargeFontSize}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Grid.Row="0" Foreground="Yellow" Text="Departures" FontSize="{StaticResource TextStyleExtraLargeFontSize}"/>
+            <TextBlock Grid.Row="0" Visibility="{Binding Departures.Updating, Converter={StaticResource BoolToVis}}" Foreground="Yellow" Text=" updating..." FontSize="{StaticResource TextStyleExtraLargeFontSize}"/>
+        </StackPanel>
 
         <ListView Grid.Row="1" ItemsSource="{Binding Departures}" SelectionMode="None" >
 
