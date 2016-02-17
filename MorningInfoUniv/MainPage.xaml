@@ -19,8 +19,10 @@
 
 
 
-        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <View:PowerMonitor></View:PowerMonitor>
         <View:Clock FontSize="44" Foreground="Yellow" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        </StackPanel>
         <View:Departures Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="762" Margin="0,0.333,0,0"/>
 
 

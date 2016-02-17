@@ -22,6 +22,11 @@ namespace MorningInfoUniv.ViewModel
             SimpleIoc.Default.Register<IDialogService, DialogService>();
 
             SimpleIoc.Default.Register<TrainServiceCache>();
+#if ISARM
+            SimpleIoc.Default.Register<IPowerService, PowerService>();
+#else
+            SimpleIoc.Default.Register<IPowerService, MockPowerService>();
+#endif        
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -31,7 +36,7 @@ namespace MorningInfoUniv.ViewModel
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IDataService, DataService>();                
                 SimpleIoc.Default.Register<IRailWebservice>(() => new RailWebservice("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"));
 
             }
@@ -39,6 +44,7 @@ namespace MorningInfoUniv.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ClockViewModel>();
             SimpleIoc.Default.Register<DeparturesViewModel>();
+            SimpleIoc.Default.Register<PowerMonitorViewModel>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
@@ -47,5 +53,6 @@ namespace MorningInfoUniv.ViewModel
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public ClockViewModel Clock => ServiceLocator.Current.GetInstance<ClockViewModel>();
         public DeparturesViewModel Departures => ServiceLocator.Current.GetInstance<DeparturesViewModel>();
+        public PowerMonitorViewModel PowerMonitor => ServiceLocator.Current.GetInstance<PowerMonitorViewModel>();
     }
 }
