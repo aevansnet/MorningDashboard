@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MorningInfoUniv.RailService;
 using MorningInfoUniv.Model;
+using System.IO;
 
 namespace MorningInfoUniv.RailServiceMessaging
 {
@@ -23,16 +24,11 @@ namespace MorningInfoUniv.RailServiceMessaging
 
         public async Task<List<TrainService>> GetDepartures(ushort numberOfresults, string startingStation, string destinationStation = null)
         {
+            string jsondata = "[{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"On time\",\"ScheduledDeparture\":\"05:40\",\"ServiceID\":\"4Y4RiQh11azN2cNQbqXRMg==\"},{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"On time\",\"ScheduledDeparture\":\"06:11\",\"ServiceID\":\"oLzkuSqsNqD3EXcBjlDnoA==\"},{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"On time\",\"ScheduledDeparture\":\"06:34\",\"ServiceID\":\"KI1NhkIjHQTHu0EO\\/jHwnA==\"},{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"On time\",\"ScheduledDeparture\":\"06:50\",\"ServiceID\":\"aU4o7Ay61mJk2bFgSTT2GQ==\"},{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"07:50\",\"ScheduledDeparture\":\"07:00\",\"ServiceID\":\"R1+GaoylsCDD+zt5\\/9IIgg==\"},{\"Destination\":\"London Waterloo\",\"ExpectedDepature\":\"On time\",\"ScheduledDeparture\":\"07:11\",\"ServiceID\":\"Gl2YbopD\\/bQh+vZoHmXHFw==\"}]";
+            var deserializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(List<TrainService>));
 
-            return new List<TrainService>()
-            {
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="06:34" },
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="08:50" },
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="09:15" },
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="10:50" },
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="12:50" },
-                new TrainService() { Destination = "London Waterloo", ScheduledDeparture="14:50" }
-            };
+            var bytes = Encoding.Unicode.GetBytes(jsondata);
+            return deserializer.ReadObject(new MemoryStream(bytes)) as List<TrainService>;          
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Core;
 using Windows.UI.Xaml.Navigation;
 using MorningInfoUniv.ViewModel;
+using Windows.UI.ViewManagement;
 
 namespace MorningInfoUniv
 {
@@ -10,6 +11,9 @@ namespace MorningInfoUniv
 
         public MainPage()
         {
+            ApplicationView view = ApplicationView.GetForCurrentView();
+            view.TryEnterFullScreenMode();
+
             InitializeComponent();
 
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManagerBackRequested;

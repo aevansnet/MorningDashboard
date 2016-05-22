@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Threading;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Threading;
 using MorningInfoUniv.RailServiceMessaging;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,7 @@ namespace MorningInfoUniv.Model
 
             });
                 var services = await _webservice.GetDepartures(18, station, destination);
+                //var services = await _webservice.GetArrivals(18, station, destination);
 
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
@@ -79,7 +81,7 @@ namespace MorningInfoUniv.Model
 
                 foreach (var service in services)
                 {
-
+                   
                     var serviceToUpdate = arrDeparture.FirstOrDefault(s => s.ServiceID == service.ServiceID);
                     if(serviceToUpdate == null)
                     {
@@ -88,7 +90,8 @@ namespace MorningInfoUniv.Model
                     }
                     else
                     {
-                        serviceToUpdate = service;
+                        arrDeparture[arrDeparture.IndexOf(serviceToUpdate)] = service;
+                        //OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(null, serviceToUpdate));
                     }
                    
                 }
@@ -130,12 +133,15 @@ namespace MorningInfoUniv.Model
         }
 
     }
-    public class TrainService
+    public class TrainService : ObservableObject
     {
         public string Destination { get; set; }
         public string ScheduledDeparture { get; set; }
         public string ExpectedDepature { get; set; }
         public string ServiceID { get; set; }
+        public string ActualTermination { get; set; }
+        public string EstimatedTermination { get; set; }
+        public string ScheduledTermination { get; set; }
 
     }
 }

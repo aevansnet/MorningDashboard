@@ -33,7 +33,7 @@ namespace MorningInfoUniv
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
-
+            DispatcherHelper.Initialize();
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -61,7 +61,7 @@ namespace MorningInfoUniv
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            DispatcherHelper.Initialize();
+            
 
             Messenger.Default.Register<NotificationMessageAction<string>>(
                 this,

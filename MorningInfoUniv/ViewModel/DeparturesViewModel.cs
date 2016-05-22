@@ -55,15 +55,21 @@ namespace MorningInfoUniv.ViewModel
                     if(departureBoard.Station == Station)
                     {
                         Departures = departureBoard;
+                        departureBoard.CollectionChanged += DepartureBoard_CollectionChanged;
                     }
                 }
             }
         }
 
+        private void DepartureBoard_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+           
+        }
+
         public async void LoadDepartures()
         {
 
-            _serviceCache.StartContinuousUpdate(Station, new System.Threading.CancellationToken());
+            _serviceCache.StartContinuousUpdate(Station, new System.Threading.CancellationToken(), "WAT");
 
             //var results = await _railWebservice.GetDepartures(10, "HAV");
             //Departures.Clear();

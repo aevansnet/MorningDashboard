@@ -7,14 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:Converters="using:MorningInfoUniv.View.Converters"
-    d:DesignWidth="528"
-    DataContext="{Binding Departures, Source={StaticResource Locator}}"
+    DataContext="{Binding Departures, Source={StaticResource Locator}}" Height="634.164" Width="1154.383"
     
 >
     <UserControl.Resources>
         <Converters:EstimatedColourCoverter x:Key="EstimatedToColor" Green="Green" Amber="Yellow" Red="Red" />
         <Converters:DateTimeConverter x:Key="StringFormat"  />
         <Converters:BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Converters:InstToVisibilityConverter x:Key="InstToVis" />
 
         <Style TargetType="TextBlock" x:Key="TableData">
             <Setter Property="FontSize" Value="36"/>
@@ -24,7 +24,11 @@
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
-      
+        <Style TargetType="TextBlock" x:Key="TableHeaderSub">
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="FontSize" Value="18"/>        
+        </Style>
+
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -50,12 +54,29 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="6*" />
                                 <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="6*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource TableData}" Text="Time"/>
-                            <TextBlock Style="{StaticResource TableData}" Grid.Column="1" Text="Destination"/>
-                            <TextBlock Style="{StaticResource TableData}" Grid.Column="2" Text="Expected"/>
+                            <TextBlock Style="{StaticResource TableHeader}" Text="Time"/>
+                            <TextBlock Style="{StaticResource TableHeader}" Grid.Column="1" Text="Destination"/>
+                            <TextBlock Style="{StaticResource TableHeader}" Grid.Column="2" Text="Depature"/>
+                            <Grid Grid.Column="3" Background="#101010">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition  Width="2*"/>
+                                    <ColumnDefinition  Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{StaticResource TableHeader}" Grid.ColumnSpan="2" Text="Termination"/>
+                                <TextBlock Style="{StaticResource TableHeaderSub}" Grid.Row="1" Grid.Column="1" Text="Scheduled"/>
+                                <TextBlock Style="{StaticResource TableHeaderSub}" Grid.Row="1"  Text="Estimate/Actual"/>
+                                <TextBlock Style="{StaticResource TableHeaderSub}" Grid.Row="1" Grid.Column="2"  Text="Arr"/>
+                            </Grid>
+                           
                         </Grid>
 
                         <ItemsPresenter Grid.Row="1"/>
@@ -69,12 +90,25 @@
                     <Grid HorizontalAlignment="Stretch" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="7*" />
+                            <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="6*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource TableData}" Text="{Binding ScheduledDeparture}"/>
                         <TextBlock Style="{StaticResource TableData}" Grid.Column="1" Foreground="Yellow" Text="{Binding Destination}"/>
                         <TextBlock Style="{StaticResource TableData}" Grid.Column="2" Foreground="{Binding ExpectedDepature, Converter={StaticResource EstimatedToColor}}" Text="{Binding ExpectedDepature}"/>
+                        <Grid Grid.Column="3" Background="#101010">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition  Width="2*"/>
+                                <ColumnDefinition  Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="1" Text="{Binding ScheduledTermination}"/>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="0" Foreground="{Binding ActualTermination, Converter={StaticResource EstimatedToColor}}" Text="{Binding ActualTermination}"/>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="0" Foreground="{Binding EstimatedTermination, Converter={StaticResource EstimatedToColor}}" Text="{Binding EstimatedTermination}"/>
+                            <TextBlock Style="{StaticResource TableData}" Grid.Column="2" Visibility="{Binding ActualTermination, Converter={StaticResource InstToVis}}" Foreground="Green" Text="√" FontWeight="ExtraBold"/>
+
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
